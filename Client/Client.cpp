@@ -60,7 +60,7 @@ int main()
 
 	clientService.sin_family = AF_INET;
 
-	clientService.sin_addr.s_addr = inet_addr("127.0.0.1");
+	clientService.sin_addr.s_addr = inet_addr("192.168.1.80");
 
 	clientService.sin_port = htons(55555);
 
