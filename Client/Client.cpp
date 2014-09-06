@@ -81,41 +81,26 @@ int main()
 		memcpy(sendbuf, &B[i], sizeof(double));
 		bytesSent = send(m_socket, sendbuf, sizeof(double), 0);
 	}
-	cout << "Client: send() - Bytes Sent:" << bytesSent << endl;
-
-	while (bytesRecv == SOCKET_ERROR)
-	{
-		bytesRecv = recv(m_socket, recvbuf, 32, 0);
-		if (bytesRecv == 0 || bytesRecv == WSAECONNRESET)
-		{
-			cout << "Client: Connection Closed." << endl;
-			break;
+	char buf[4] = "";
+	recv(m_socket, buf, 4, 0);
+	if (!strcmp( buf,"1")){
+		cout << "macierz odwrotna:" << endl;
+		for (int i = 0; i < n*n; i++){
+			recv(m_socket, recvbuf, sizeof(double), 0);
+			memcpy(&C[i], recvbuf, sizeof(double));
 		}
-		else
-			cout << "Client: recv() is OK." << endl;
-
-		if (bytesRecv < 0)
-			return 0;
-		else
-			cout << "Client: Bytes received - " << bytesRecv << endl;
+		k = 0;
+		for (i = 0; i < n; i++){
+			cout << endl;
+			for (j = 0; j < n; j++){
+				A[i][j] = C[k];
+				cout << A[i][j] << " ";
+				k++;
+			}
+		}
 	}
-
-	bytesSent = send(m_socket, (char*)sendbuf, n*n, 0);
-	cout << "Client: Bytes sent " << bytesSent << endl;
-	for (int i = -1; i < n*n; i++){
-		recv(m_socket, recvbuf, sizeof(double), 0);
-		memcpy(&C[i], recvbuf, sizeof(double));
-	}
-	k = 0;
-	for (i = 0; i < n; i++){
-	cout << endl;
-	for (j = 0; j < n; j++){
-		A[i][j] = C[k];
-		cout << A[i][j] << " ";
-		k++;
-	}
-}
-
+	else if (!strcmp(buf,"0"))
+		cout << "macierz nieodwracalna";
 	getchar();
 	getchar();
 	return 0;
