@@ -12,8 +12,7 @@ int main()
 
 	if (iResult != NO_ERROR)
 		cout << "Client: Error at WSAStartup()." << endl;
-	else
-		cout << "Client: WSAStartup() is OK." << endl;
+
 	// Create a socket.
 
 	SOCKET m_socket;
@@ -25,15 +24,14 @@ int main()
 		WSACleanup();
 		return 0;
 	}
-	else
-		cout << "Client: socket() is OK." << endl;
+
 
 	// Connect to a server.
 
 	sockaddr_in clientService;
 
 	clientService.sin_family = AF_INET;
-	clientService.sin_addr.s_addr = inet_addr("192.168.1.82");
+	clientService.sin_addr.s_addr = inet_addr("192.168.1.87");
 	clientService.sin_port = htons(55555);
 
 	if (connect(m_socket, (SOCKADDR*)&clientService, sizeof(clientService)) == SOCKET_ERROR)
@@ -67,6 +65,7 @@ int main()
 		B[k] = A[i][j];
 		k++;
 	}
+	cout << "macierz: " << endl;
 	for (i = 0; i < n; i++){
 		cout << endl;
 		for (j = 0; j < n; j++)
